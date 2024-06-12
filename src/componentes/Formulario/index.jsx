@@ -3,9 +3,9 @@ import { Titulo } from '../Titulo';
 import BuscarCidade from '../BuscarCidade';
 import SelecionarData from '../SelecionarData/SelecionarData';
 
-const FormolarioContainer = styled.header`
-  width: 100vw;
-  margin: 40px 0 0 120px;
+const FormolarioContainer = styled.div`
+  margin: 0px 0 0 0px;
+  padding: 40px 0 120px 120px;
   height: 100%;
   border: solid 2px red;
   
@@ -14,7 +14,9 @@ const FormolarioContainer = styled.header`
 const Container = styled.div`
   background-color: beige;
   display: flex;
-
+  padding: 0;
+  margin-top: 40px;
+  border: solid 2px green;
   
 `
 
@@ -26,7 +28,18 @@ function Formulario(){
                 <BuscarCidade/>
                 <SelecionarData/>
             </Container>
+
+            <Container>
+                Infomar temperatura e selecionar turno
+            </Container>
+
+            <Container>
+                informe clima               
+           </Container>
             
+           <Container>
+                botões               
+           </Container>
         </FormolarioContainer>
     )
 }
