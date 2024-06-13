@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Titulo } from '../Titulo';
 import BuscarCidade from '../BuscarCidade';
-import SelecionarData from '../SelecionarData/SelecionarData';
+import SelecionarData from '../SelecionarData';
 
 const FormolarioContainer = styled.div`
   margin: 0px 0 0 0px;

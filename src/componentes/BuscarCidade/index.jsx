@@ -1,30 +1,22 @@
 import styled from "styled-components";
 import { SubTitulo } from "../SubTitulo/SubTitulo";
+import RotuloDeCampo from "../RotuloDeCampo"
+import Lupa from '../../imagens/lupa.png'
 
 const BuscarCidadeContainer = styled.div`
   width: 466px;
   height: 125px;
   padding: 0;
-  margin: 0;
-  border: solid 2px black;
-  
-`
-const TituloDoCampo = styled.h5`
-        width: 100px;
-        height: 22px;
-        padding:0 ;
-        padding-top: 16px;
-        margin: 0;
-        font-family: TT-Supermolot-Regular;
-        size: 18;
-        font-weight: 400;
-        line-height: 22.14px;
-        color: #292929;
+  margin: 0;  
 `
 
 const CidadeInput = styled.input`
-   width: 100%;
-   height: 40px;
+   width: 458px;
+   height: 34px;
+   border-radius: 6px;
+   border: 2px solid #414aba;
+   //inserir figura
+
 `
 
 function BuscarCidade(){
@@ -33,10 +25,10 @@ function BuscarCidade(){
           <SubTitulo>Buscar Cidade</SubTitulo>
 
           <label for="buscar">
-              <TituloDoCampo>
-              Buscar Cidade
-              </TituloDoCampo>
-              </label>
+            <RotuloDeCampo>
+                Buscar Cidade
+            </RotuloDeCampo>
+          </label>
   
               <CidadeInput type="text" name="buscar" id="buscar" />
         </BuscarCidadeContainer>

@@ -7,4 +7,6 @@ font
 width: 62px;
 height: 22px;
 padding-top: 16px;
+background-image:  url(../../imagens/lupa.png) no-repeat center right;
+background-color: yellow;
 }
