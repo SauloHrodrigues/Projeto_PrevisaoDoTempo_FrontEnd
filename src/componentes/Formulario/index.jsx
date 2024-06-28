@@ -2,6 +2,10 @@ import styled from 'styled-components';
 import { Titulo } from '../Titulo';
 import BuscarCidade from '../BuscarCidade';
 import SelecionarData from '../SelecionarData';
+import SelecioneTurno from '../SelecioneTurno';
+import InformeATemperatura from '../InformeATemperatura/InformeATemperatura';
+import InformeOClima from '../InformeOClima';
+
 
 const FormolarioContainer = styled.div`
   margin: 0px 0 0 0px;
@@ -30,11 +34,13 @@ function Formulario(){
             </Container>
 
             <Container>
-                Infomar temperatura e selecionar turno
+              <InformeATemperatura/>
+              <SelecioneTurno/>
+             
             </Container>
 
             <Container>
-                informe clima               
+                <InformeOClima/>              
            </Container>
             
            <Container>

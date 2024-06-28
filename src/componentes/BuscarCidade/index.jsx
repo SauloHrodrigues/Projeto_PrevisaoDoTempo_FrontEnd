@@ -7,7 +7,8 @@ const BuscarCidadeContainer = styled.div`
   width: 466px;
   height: 125px;
   padding: 0;
-  margin: 0;  
+  margin: 0;
+  border: solid 3px red;  
 `
 
 const CidadeInput = styled.input`

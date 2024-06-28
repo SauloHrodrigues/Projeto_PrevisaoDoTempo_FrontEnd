@@ -9,4 +9,17 @@ height: 22px;
 padding-top: 16px;
 background-image:  url(../../imagens/lupa.png) no-repeat center right;
 background-color: yellow;
+font-family: TT-Supermolot-Bold;
+display: block;
+margin-right: 260px;
+margin-left: 60px;
+margin-bottom: 16px;
+padding: 4px 15px;
+border: solid 3px red;
+gap: 10px;
+border: none;
+border-radius:0;
+text-align: center;
+justify-content: center;
+
 }

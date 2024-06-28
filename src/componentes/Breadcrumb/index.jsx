@@ -24,9 +24,8 @@ const BreadcrumbContainer = styled.div`
         color: #414ABA;
 
     }
-    margin: 0 0 0 120px;
+    margin: 40px 0 40px 120px;
     padding: 0;
-    border: solid 2px green;
 
 `;
  
