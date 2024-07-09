@@ -1,14 +1,14 @@
+import { Button } from "antd";
 import styled from "styled-components";
 
-const BotaoTurno = styled.button`
+const BotaoTurno = styled(Button)`
     width: 75px;
     height: 40px;
     padding: 4px 15px 4px 15px ;
     border-radius: 6px;
     border: none;
-      justify-content: center;
+    justify-content: center;
     background-color: #BEE7F9;  
-    
     
 `
 const RotuloFormatado = styled.h5`

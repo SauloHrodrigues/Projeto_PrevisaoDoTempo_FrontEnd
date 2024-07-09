@@ -5,13 +5,11 @@ import RotuloDeCampo from "../RotuloDeCampo"
 import CaixaImputFormatada from '../Input'
 
 const ContainerInformeTemperatura = styled.div`
-      width: 339px;
-      height: 121px;
-      margin-right: 260px;
+  width: 339px;
+  height: 121px;
+  margin-right: 260px;
    
 `
-
-
 const DivSubTitulo = styled.div`
   width:100%;
   height: 39px;
@@ -21,15 +19,17 @@ const DivSubTitulo = styled.div`
 
 `
 const DivMaximaMinima = styled.div`
-    width: 220px;
-    height: 66px;
-    display: flex;
-   
+  width: 220px;
+  height: 66px;
+  display: flex; 
+  gap: 15px;
+  padding: 0;
+   margin: 0;
 `
 const DivMaxima = styled.div`
-      width: 90px;
-      height: 66px;
-      margin: 0 15px;
+  width: 90px;
+  height: 66px;
+  margin: 0 ;
      
 `
 function InformeATemperatura(){

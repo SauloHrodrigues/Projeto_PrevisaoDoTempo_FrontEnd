@@ -7,13 +7,11 @@ import { InputNumber } from 'antd'
 const InformeOClimaContainer = styled.section`
     width: 100%;
     height: auto;
-    border: solid 3px red;
 `
 const ContainerDeDados = styled.div`
-     width: 100%;
+    width: 100%;
     height: auto;
     display: flex;
-    border: solid 3px green;
 `
 const ContainerClima = styled.section`
     width: 207px
@@ -42,10 +40,28 @@ const ContainerVelocidadeCoVento = styled.section`
 
 const InputNumberCustomer = styled(InputNumber)`
     width: 90px
-    height: 40px;
+    height: 70px;
     border-radius: 6px;
     border: 2px solid #414aba;
 `
+const InputNumberSemSetas = styled.input`
+    width: 90px;
+    height: 40px;
+    border-radius: 6px;
+    border: 2px solid #414aba;
+    padding-left: 15px;
+ 
+    /* Remover setas de incremento/decremento */
+    -webkit-appearance: none; /* Chrome, Safari, Edge, Opera */
+    -moz-appearance: textfield; /* Firefox */
+    appearance: textfield; /* Conformidade futura */
+ 
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+`;
 
 function InformeOClima(){
     return(
@@ -54,21 +70,22 @@ function InformeOClima(){
             <ContainerDeDados>
                 <ContainerClima>
                     <RotuloDeCampo>Clima*</RotuloDeCampo>
-                    <SelectComponent/>
+                    <SelectComponent placeholder="Ensolarado"/>
                 </ContainerClima>
                 
                 <ContainerPrecipitacao>
                     <RotuloDeCampo>Precipitação*</RotuloDeCampo>
-                    <InputNumberCustomer/>
+                    <InputNumberCustomer placeholder="3mm"/>
                 </ContainerPrecipitacao>
 
                 <ContainerUmidade>
                     <RotuloDeCampo>Umidade*</RotuloDeCampo>
-                    
+                    <InputNumberSemSetas placeholder="3%"/>
                 </ContainerUmidade>
 
                 <ContainerVelocidadeCoVento>
-                <RotuloDeCampo>Velocidade do vento*</RotuloDeCampo>
+                    <RotuloDeCampo>Velocidade do vento*</RotuloDeCampo>
+                    <InputNumberSemSetas placeholder="3 km/h"/>
                 </ContainerVelocidadeCoVento>
 
             </ContainerDeDados>

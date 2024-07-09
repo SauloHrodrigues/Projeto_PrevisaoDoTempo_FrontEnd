@@ -1,0 +1,12 @@
+@font-face {
+
+    font-family: 'TTSupermolot-Regular';
+
+    src: url('./componentes/EstiloGlobal/Fontes/supermolot-ttf/TT-Supermolot-Regular.ttf') format("truetype");
+
+}
+
+@font-face {
+    font-family: 'TTSupermolot-Bold';
+    src: url('./componentes/EstiloGlobal/Fontes/supermolot-ttf/TT-Supermolot-Bold.ttf') format("truetype");
+}

@@ -34,7 +34,7 @@ function SelecioneTurno(){
             </ContainerTitulo>
             <RotuloDeCampo>Turno*</RotuloDeCampo>
             <ContainerDeTurnos>
-                <BotaoTurno rotulo = {"manha"}/>               
+                <BotaoTurno rotulo = {"manhã"}/>               
                 <BotaoTurno rotulo = {"tarde"}/>               
                 <BotaoTurno rotulo = {"noite"}/>               
             </ContainerDeTurnos>

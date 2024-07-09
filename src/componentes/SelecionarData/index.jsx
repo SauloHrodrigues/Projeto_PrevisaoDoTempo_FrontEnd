@@ -9,7 +9,6 @@ const SelecionarDataContainer = styled.div`
   padding: 0;
   margin:0;
   margin-left: 122px;
-  border: solid 3px red;  
 `
 
 const DatePickerFormatado = styled(DatePicker)` 
