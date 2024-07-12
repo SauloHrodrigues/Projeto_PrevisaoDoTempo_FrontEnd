@@ -10,8 +10,8 @@ export const BotaoEstilizado = styled.button`
     border: 1px solid #414ABA;
     padding: 6.4px 15px 6.4px 15px;
     margin-right: 3px;
-    background-color: ${props => props.corDeFundo || '#FFFFFF'};
-    color:  ${props => props.corDaLetra || '#414ABA'};
+    background-color: ${props => props.cor_de_fundo || '#FFFFFF'};
+    color:  ${props => props.cor_da_letra || '#414ABA'};
     font-family: TT-Supermolot-Bold;
     font-size: 18px;
     font-weight: 400;
@@ -19,3 +19,4 @@ export const BotaoEstilizado = styled.button`
     &:hover{ 
     }
 `
+

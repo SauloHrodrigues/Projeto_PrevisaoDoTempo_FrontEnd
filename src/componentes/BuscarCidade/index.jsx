@@ -3,6 +3,8 @@ import { SubTitulo } from "../SubTitulo/SubTitulo";
 import RotuloDeCampo from "../RotuloDeCampo"
 import {SearchOutlined} from "@ant-design/icons"
 import { Input } from "antd";
+import axios from "axios";
+import { useState } from "react";
 
 
 const BuscarCidadeContainer = styled.div`
@@ -30,22 +32,32 @@ const Lupa = styled(SearchOutlined)`
 `
 
 function BuscarCidade(){
+  const [cidadeBuscada, setCidadeBuscada] = useState('')
+  function capturaTexto(valor){
+    setCidadeBuscada(valor)
+  }
+  console.log(cidadeBuscada)
   
     return(
         <BuscarCidadeContainer>
+
           <SubTitulo>Buscar Cidade</SubTitulo>
 
-          <label for="buscar">
+          <label>
             <RotuloDeCampo>
                 Buscar Cidade
             </RotuloDeCampo>
           </label>
   
-              <CidadeInput type="search" placeholder="Digite o nome da cidade"
-               suffix={<Lupa /> }>
-          
-              </CidadeInput>
+              <CidadeInput 
+                  type="search" 
+                  placeholder="Digite o nome da cidade"
+                  suffix={<Lupa /> } 
+                  value={cidadeBuscada} 
+                  onChange={(e) => capturaTexto(e.target.value) }/>
+             
         </BuscarCidadeContainer>
+        
     )
 }
 export default BuscarCidade

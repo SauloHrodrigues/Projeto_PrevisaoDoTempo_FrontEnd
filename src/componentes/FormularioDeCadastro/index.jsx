@@ -6,9 +6,9 @@ import SelecioneTurno from '../SelecioneTurno';
 import InformeATemperatura from '../InformeATemperatura/InformeATemperatura';
 import InformeOClima from '../InformeOClima';
 import { BotaoEstilizado } from '../Botoes';
-import { minhaFuncao } from '../ListarDadosMeteorologicos';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { AreaDeDados } from '../../AreaDeDados';
+import axios from 'axios';
 
 const Container = styled.div`
   display: flex;
@@ -25,36 +25,72 @@ const SessaoDeBotao = styled.section`
 
 
 function Formulario(){
-  useEffect(() => {    
-    async function fetchData () {      
-      try{        
-        const data = await minhaFuncao();        
-  // Faça algo com os dados recebidos, se necessário
-      }
-      catch (error) {        
-  // Trate o erro aqui, se necessário
-        console.error('Erro ao buscar dados:', error);     
-      }  
-    }   
-    fetchData(); 
-  }, []);
+  // useEffect(() => {    
+  //   async function fetchData () {      
+  //     try{        
+  //       const data = await minhaFuncao();        
+  // // Faça algo com os dados recebidos, se necessário
+  //     }
+  //     catch (error) {        
+  // // Trate o erro aqui, se necessário
+  //       console.error('Erro ao buscar dados:', error);     
+  //     }  
+  //   }   
+  //   fetchData(); 
+  // }, []);
 
-  // Executa apenas uma vez ao montar o componente
-const handleClick = async () => {    
-    try{      
-    const data = await minhaFuncao();
-    // Faça algo com os dados recebidos, se necessário
+const [cidadeSelecionada, setCidadeSelecionada]= useState(null)
+
+const handleCidadeSelecionada = (cidade) =>{
+  setCidadeSelecionada(cidade)
+}// FAZER PARA TODOS OS INPUTS
+
+const validarCampos = ()=>{
+  return (
+    cidadeSelecionada !== null
+  );
+};
+
+const salvarCampos = async()=>{
+    if(validarCampos()){
+    try{
+      const dados = {
+        nome: cidadeSelecionada
+
+      };
+
+      const resposta = await axios.post("http://localhost:8080/previsao/clima/cidade/", dados, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if(resposta.status === 201){
+        console.log("Salvou com sucesso!")
+      }
+    }catch (error){
+      console.log("Error: ", error)
+    }  
+     
     }
-    catch (error) {
-    // Trate o erro aqui, se necessário
-    console.error('Erro ao buscar dados:', error); }
-   };
+}
+  // Executa apenas uma vez ao montar o componente
+// const handleClick = async () => {    
+//     try{      
+//     const data = await minhaFuncao();
+//     // Faça algo com os dados recebidos, se necessário
+//     }
+//     catch (error) {
+//     // Trate o erro aqui, se necessário
+//     console.error('Erro ao buscar dados:', error); }
+//    };
 
     return(
         <AreaDeDados>
             <Titulo>Cadastro de dados meteorológicos</Titulo>
             <Container>
-                <BuscarCidade/>
+                <BuscarCidade 
+                  value={cidadeSelecionada} 
+                  onInputChange={handleCidadeSelecionada}
+
+                />
                 <SelecionarData/>
             </Container>
 
@@ -73,8 +109,8 @@ const handleClick = async () => {
                   <BotaoEstilizado>
                     Cancelar
                   </BotaoEstilizado>        
-                  <BotaoEstilizado corDeFundo='#414ABA' corDaLetra='#ffff'
-                  onClick={handleClick}>
+                  <BotaoEstilizado cor_de_fundo='#414ABA' cor_da_letra='#ffff'
+                  onClick={salvarCampos}>
                     Salvar
                   </BotaoEstilizado>        
                   
