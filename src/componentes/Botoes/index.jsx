@@ -16,6 +16,7 @@ export const BotaoEstilizado = styled.button`
     font-size: 18px;
     font-weight: 400;
     line-height: 22.23px;
+    cursor: pointer;
     &:hover{ 
     }
 `

@@ -3,6 +3,7 @@ import { SubTitulo } from "../SubTitulo/SubTitulo";
 import RotuloDeCampo from "../RotuloDeCampo";
 import SelectComponent from "../Select";
 import { InputNumber } from 'antd'
+import { useState } from "react";
 
 const InformeOClimaContainer = styled.section`
     width: 100%;
@@ -64,28 +65,62 @@ const InputNumberSemSetas = styled.input`
 `;
 
 function InformeOClima(){
+    const [clima, setClima] = useState(null);
+    const [precipitacao, setPrecipitacao] = useState(null);
+    const [umidade, setUmidade] = useState(null);
+    const [velocidadeDoVento, setVelocidadeDoVento] = useState(null);
+  
+    const handleClima = (value)=> {
+        setClima(value);
+    }
+
+    const handlePrecipitacao = (value)=> {
+        setPrecipitacao(value);
+    }
+
+    const handleUmidade = (value)=> {
+        setUmidade(value);
+      
+    }
+
+    const handleVelocidadeDoVento = (value)=> {
+        setVelocidadeDoVento(value);
+    }
+
     return(
         <InformeOClimaContainer>
             <SubTitulo>Informe o clima</SubTitulo>
             <ContainerDeDados>
                 <ContainerClima>
                     <RotuloDeCampo>Clima*</RotuloDeCampo>
-                    <SelectComponent placeholder="Ensolarado"/>
+                    <SelectComponent placeholder="Ensolarado"
+                    value={clima}
+                    onChange={handleClima}
+                    />
                 </ContainerClima>
                 
                 <ContainerPrecipitacao>
                     <RotuloDeCampo>Precipitação*</RotuloDeCampo>
-                    <InputNumberCustomer placeholder="3mm"/>
+                    <InputNumberCustomer placeholder="3mm"
+                    value={precipitacao}
+                    onChange={handlePrecipitacao}
+                    />
                 </ContainerPrecipitacao>
 
                 <ContainerUmidade>
                     <RotuloDeCampo>Umidade*</RotuloDeCampo>
-                    <InputNumberSemSetas placeholder="3%"/>
+                    <InputNumberCustomer placeholder="3%"
+                        value={umidade}
+                        onChange={handleUmidade}
+                    />
                 </ContainerUmidade>
 
                 <ContainerVelocidadeCoVento>
                     <RotuloDeCampo>Velocidade do vento*</RotuloDeCampo>
-                    <InputNumberSemSetas placeholder="3 km/h"/>
+                    <InputNumberCustomer placeholder="3 km/h"
+                        value={velocidadeDoVento}
+                        onChange={handleVelocidadeDoVento}
+                    />
                 </ContainerVelocidadeCoVento>
 
             </ContainerDeDados>

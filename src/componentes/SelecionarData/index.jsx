@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { DatePicker } from "antd";
 import { SubTitulo } from "../SubTitulo/SubTitulo";
 import RotuloDeCampo from "../RotuloDeCampo"
+import { useEffect, useState } from "react";
 
 const SelecionarDataContainer = styled.div`
   width: 236px;
@@ -19,12 +20,26 @@ const DatePickerFormatado = styled(DatePicker)`
    padding: 8px 12px;
 `
 
-function SelecionarData(){
+function SelecionarData({onInputChange}){
+  const [dataSelecionada, setDataSelecionada] = useState(null);
+
+  const handleMudaData = (dateString, date)=> {
+    setDataSelecionada(dateString);
+    if(onInputChange){
+      onInputChange(date, dateString);
+    }
+  }
+
     return(
         <SelecionarDataContainer>
               <SubTitulo>Selecione a data</SubTitulo>
               <RotuloDeCampo>Data</RotuloDeCampo>
-              <DatePickerFormatado></DatePickerFormatado>
+              <DatePickerFormatado value={dataSelecionada}
+                onChange={handleMudaData}
+                format="YYYY-MM-DD"
+              >
+
+              </DatePickerFormatado>
         </SelecionarDataContainer>
     )
 }

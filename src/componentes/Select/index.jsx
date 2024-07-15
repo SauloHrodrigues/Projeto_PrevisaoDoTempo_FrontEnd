@@ -2,7 +2,8 @@ import React from 'react';
 import { ConfigProvider, Select} from 'antd';
 
 
-const SelectComponent = () => (
+const SelectComponent = () => {
+  return(
   <>
     <ConfigProvider
       theme={{
@@ -19,13 +20,15 @@ const SelectComponent = () => (
       }}
     >
     <Select       
-        defaultValue="ensolarado"     
+        defaultValue="Selecione um clima"     
         style={{borderRadius:'6px', border:'solid 2px #414ABA', width: '207px',
             height: '40px'}}      
-        options={[{value: 'ensolarado',label: 'Ensolarado'},
+        options={[{value: 'ENSOLARADO',label: 'Ensolarado'},
+          {value: 'CHUVOSO',label: 'Chuvoso'},
+          {value: 'NUBLADO',label: 'Nublado'}
 ]}/> 
     </ConfigProvider>
   </>
-);
+)};
 
 export default SelectComponent;

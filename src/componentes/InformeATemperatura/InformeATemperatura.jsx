@@ -3,6 +3,7 @@ import { SubTitulo } from "../SubTitulo/SubTitulo";
 import RotuloDeCampo from "../RotuloDeCampo"
 
 import CaixaImputFormatada from '../Input'
+import { useEffect, useState } from "react";
 
 const ContainerInformeTemperatura = styled.div`
   width: 339px;
@@ -32,7 +33,29 @@ const DivMaxima = styled.div`
   margin: 0 ;
      
 `
-function InformeATemperatura(){
+function InformeATemperatura({valorInicial, onInputChange }){
+
+  const [temperaturaMaxima, setTemperaturaMaxima] = useState(valorInicial?.maxima || '')
+  const [temperaturaMinima, setTemperaturaMinima] = useState(valorInicial?.minima || '')
+
+  useEffect(()=> {
+    if(valorInicial){
+      setTemperaturaMaxima(valorInicial.maxima)
+      setTemperaturaMinima(valorInicial.minima)
+    }
+  }, [valorInicial])
+
+  const handleMaxima = (e)=> {
+    const valor = e.target.value;
+    setTemperaturaMaxima(valor);
+    onInputChange({...valorInicial, maxima: valor});
+  }
+
+  const handleMinima = (e)=> {
+    const valor = e.target.value;
+    setTemperaturaMinima(valor);
+    onInputChange({...valorInicial, minima: valor});
+  }
     return(
         <ContainerInformeTemperatura>
             <DivSubTitulo>
@@ -41,11 +64,15 @@ function InformeATemperatura(){
                 <DivMaximaMinima>
                     <DivMaxima>
                         <RotuloDeCampo>Máxima</RotuloDeCampo>
-                        <CaixaImputFormatada largura="90%" altura="36px" placeholder="Digite aqui" />
+                        <CaixaImputFormatada largura="90%" altura="36px" placeholder="Digite aqui" value={temperaturaMaxima} 
+                        onChange={handleMaxima}
+                        />
                     </DivMaxima>
                     <DivMaxima>
                         <RotuloDeCampo>Mínima</RotuloDeCampo>
-                        <CaixaImputFormatada largura="90%" altura="36px" placeholder="Digite aqui" />
+                        <CaixaImputFormatada largura="90%" altura="36px" placeholder="Digite aqui"  value={temperaturaMinima}
+                        onChange={handleMinima}
+                        />
                     </DivMaxima>
                 </DivMaximaMinima>
             </ContainerInformeTemperatura>

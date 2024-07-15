@@ -25,42 +25,87 @@ const SessaoDeBotao = styled.section`
 
 
 function Formulario(){
-  // useEffect(() => {    
-  //   async function fetchData () {      
-  //     try{        
-  //       const data = await minhaFuncao();        
-  // // Faça algo com os dados recebidos, se necessário
-  //     }
-  //     catch (error) {        
-  // // Trate o erro aqui, se necessário
-  //       console.error('Erro ao buscar dados:', error);     
-  //     }  
-  //   }   
-  //   fetchData(); 
-  // }, []);
-
-const [cidadeSelecionada, setCidadeSelecionada]= useState(null)
+ 
+const [cidadeSelecionada, setCidadeSelecionada]= useState(null);
+const [dataSelecionada, setDataSelecionada]= useState(null);
+const [temperaturaMaxima, setTemperaturaMaxima]= useState(null);
+const [temperaturaMinima, setTemperaturaMinima]= useState(null);
+const [turnoSelecionado, setTurnoSelecionado]= useState(null);
+const [climaSelecionado, setClimaSelecionado]= useState(null);
+const [preciptacaoSelecionada, setPreciptacaoSelecionada]= useState(null);
+const [umidadeSelecionada, setUmidadeSelecionada]= useState(null);
+const [velocidadeDoVento, setVelocidadeDoVento]= useState(null);
 
 const handleCidadeSelecionada = (cidade) =>{
-  setCidadeSelecionada(cidade)
-}// FAZER PARA TODOS OS INPUTS
+  setCidadeSelecionada(cidade);
+}
+
+const handleDataSelecionada = (dataSelecionada) =>{
+  setDataSelecionada(dataSelecionada);
+}
+
+const handleTemperatura = (temperatura) =>{
+  setTemperaturaMaxima(temperatura.maxima);
+  setTemperaturaMinima(temperatura.minima);
+}
+
+const handleTurnoSelecionado = (turnoSelecionado) =>{
+  setTurnoSelecionado(turnoSelecionado)
+}
+
+const handleClimaSelecionado = (valores) =>{
+  setClimaSelecionado(valores.clima);
+  setPreciptacaoSelecionada(valores.precipitacao);
+  setUmidadeSelecionada(valores.umidade);
+  setVelocidadeDoVento(valores.velocidadeDoVento);
+}
 
 const validarCampos = ()=>{
+   console.log("cidade = "+cidadeSelecionada )
+    console.log("data = "+dataSelecionada)
+    console.log("maxima = "+temperaturaMaxima)
+    console.log("minima = "+temperaturaMinima)
+    console.log("turno = "+turnoSelecionado)
+    console.log("clima = "+climaSelecionado)
+    console.log("Precipitacao = "+preciptacaoSelecionada)
+  
   return (
-    cidadeSelecionada !== null
+    cidadeSelecionada !== null 
+    && dataSelecionada !== null
+    && temperaturaMaxima !== null
+    && temperaturaMinima !== null
+    && turnoSelecionado !== null
+    && climaSelecionado !== null
+    && preciptacaoSelecionada !== null
+    // && umidadeSelecionada !== null
+    // && velocidadeDoVento !== null
   );
+
 };
 
 const salvarCampos = async()=>{
+  console.log("Entrou no salvar campos")
     if(validarCampos()){
     try{
       const dados = {
-        nome: cidadeSelecionada
+        nome: cidadeSelecionada,
+        dadosMeteorologicos:[{
+            nomeDaCidade: cidadeSelecionada,
+            data: dataSelecionada,
+            temperaturaMinima: temperaturaMinima,
+            temperaturaMaxima:temperaturaMaxima,
+            turno: turnoSelecionado,
+            clima: climaSelecionado,
+            precipitacao: preciptacaoSelecionada,
+            // umidade: umidadeSelecionada,
+            // velocidadeDoVento 
+        }]
 
       };
 
       const resposta = await axios.post("http://localhost:8080/previsao/clima/cidade/", dados, {
         headers: { 'Content-Type': 'application/json' },
+
       });
       if(resposta.status === 201){
         console.log("Salvou com sucesso!")
@@ -71,37 +116,37 @@ const salvarCampos = async()=>{
      
     }
 }
-  // Executa apenas uma vez ao montar o componente
-// const handleClick = async () => {    
-//     try{      
-//     const data = await minhaFuncao();
-//     // Faça algo com os dados recebidos, se necessário
-//     }
-//     catch (error) {
-//     // Trate o erro aqui, se necessário
-//     console.error('Erro ao buscar dados:', error); }
-//    };
-
     return(
         <AreaDeDados>
             <Titulo>Cadastro de dados meteorológicos</Titulo>
             <Container>
                 <BuscarCidade 
-                  value={cidadeSelecionada} 
-                  onInputChange={handleCidadeSelecionada}
-
+                    value={cidadeSelecionada} 
+                    onInputChange={handleCidadeSelecionada}
                 />
-                <SelecionarData/>
+                <SelecionarData
+                    value={dataSelecionada} 
+                    onInputChange={handleDataSelecionada}
+                />
             </Container>
 
             <Container>
-              <InformeATemperatura/>
-              <SelecioneTurno/>
+              <InformeATemperatura
+                  valorInicial={{maxima: temperaturaMaxima, minima: temperaturaMinima}}
+                  onInputChange={handleTemperatura}
+              />
+              <SelecioneTurno
+                  value={turnoSelecionado}
+                  onChange={handleTurnoSelecionado}
+              />
              
             </Container>
 
             <Container>
-                <InformeOClima/>              
+                <InformeOClima
+                  valorInicial={{clima: climaSelecionado, precipitacao: preciptacaoSelecionada, umidade: umidadeSelecionada, velocidadeDoVento: velocidadeDoVento}}
+                  onInputChange={handleClimaSelecionado}
+                />              
            </Container>
             
            <Container>
