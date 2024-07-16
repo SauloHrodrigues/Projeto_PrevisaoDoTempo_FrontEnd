@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { SubTitulo } from "../SubTitulo/SubTitulo";
 import RotuloDeCampo from "../RotuloDeCampo";
 import SelectComponent from "../Select";
-import { InputNumber } from 'antd'
+import { InputNumber, Select } from 'antd'
 import { useState } from "react";
 
 const InformeOClimaContainer = styled.section`
@@ -25,7 +25,6 @@ const ContainerPrecipitacao = styled.section`
     margin-left: 60px;
 
 `
-
 const ContainerUmidade = styled.section`
     width: 90px
     height: 76px;
@@ -38,7 +37,6 @@ const ContainerVelocidadeCoVento = styled.section`
     white-space: nowrap;
     
 `
-
 const InputNumberCustomer = styled(InputNumber)`
     width: 90px
     height: 70px;
@@ -63,29 +61,47 @@ const InputNumberSemSetas = styled.input`
         margin: 0;
     }
 `;
+const {Option}= Select;
 
-function InformeOClima(){
-    const [clima, setClima] = useState(null);
-    const [precipitacao, setPrecipitacao] = useState(null);
-    const [umidade, setUmidade] = useState(null);
-    const [velocidadeDoVento, setVelocidadeDoVento] = useState(null);
+const opcoesClima = [
+    {value: 'ENSOLARADO',label: 'Ensolarado'},
+          {value: 'CHUVOSO',label: 'Chuvoso'},
+          {value: 'NUBLADO',label: 'Nublado'}
+];
+
+const InformeOClima = ({clima, precipitacao, onClimaChange, onPrecipitacaoChange})=>{
+
+    const handleClimaChange = (valor)=>{
+        console.log("valo do clima "+ valor.value)
+        onClimaChange(valor.value);
+    }
+
+    
+    const handlePrecipitacaoChange = (valor)=>{
+        console.log("valo Precipitação "+ valor)
+        onPrecipitacaoChange(valor);
+    }
+    // const [clima, setClima] = useState(null);
+    // const [precipitacao, setPrecipitacao] = useState(null);
+    // const [umidade, setUmidade] = useState(null);
+    // const [velocidadeDoVento, setVelocidadeDoVento] = useState(null);
   
-    const handleClima = (value)=> {
-        setClima(value);
-    }
+    // const handleClima = (value)=> {
+    //     setClima(value);
+    // }
 
-    const handlePrecipitacao = (value)=> {
-        setPrecipitacao(value);
-    }
+    // const handlePrecipitacao = (value)=> {
+    //     console.log("o Handler vale = "+value)
+    //     setPrecipitacao(value);
+    // }
 
-    const handleUmidade = (value)=> {
-        setUmidade(value);
-      
-    }
+    // const handleUmidade = (value)=> {
+    //     setUmidade(value);
+    // }
 
-    const handleVelocidadeDoVento = (value)=> {
-        setVelocidadeDoVento(value);
-    }
+    // const handleVelocidadeDoVento = (value)=> {
+    //     setVelocidadeDoVento(value);
+    // }
 
     return(
         <InformeOClimaContainer>
@@ -94,32 +110,40 @@ function InformeOClima(){
                 <ContainerClima>
                     <RotuloDeCampo>Clima*</RotuloDeCampo>
                     <SelectComponent placeholder="Ensolarado"
-                    value={clima}
-                    onChange={handleClima}
-                    />
+                    value={opcoesClima.find(opcao => opcao.value === clima)}
+                    onChange={handleClimaChange}
+                    Option
+                    >
+                    {opcoesClima.map(opcao =>(
+                        <Option key={opcao.value} value={opcao.value}>
+                            {opcao.label}
+                        </Option> 
+                    ))}
+                    
+                    </SelectComponent>
                 </ContainerClima>
                 
                 <ContainerPrecipitacao>
                     <RotuloDeCampo>Precipitação*</RotuloDeCampo>
                     <InputNumberCustomer placeholder="3mm"
-                    value={precipitacao}
-                    onChange={handlePrecipitacao}
+                        value={precipitacao}
+                        onChange={handlePrecipitacaoChange}
                     />
                 </ContainerPrecipitacao>
 
                 <ContainerUmidade>
                     <RotuloDeCampo>Umidade*</RotuloDeCampo>
                     <InputNumberCustomer placeholder="3%"
-                        value={umidade}
-                        onChange={handleUmidade}
+                        // value={umidade}
+                        // onChange={handleUmidade}
                     />
                 </ContainerUmidade>
 
                 <ContainerVelocidadeCoVento>
                     <RotuloDeCampo>Velocidade do vento*</RotuloDeCampo>
                     <InputNumberCustomer placeholder="3 km/h"
-                        value={velocidadeDoVento}
-                        onChange={handleVelocidadeDoVento}
+                        // value={velocidadeDoVento}
+                        // onChange={handleVelocidadeDoVento}
                     />
                 </ContainerVelocidadeCoVento>
 

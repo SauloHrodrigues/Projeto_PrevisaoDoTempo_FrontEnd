@@ -20,16 +20,16 @@ const RotuloFormatado = styled.h5`
         font-size: 18px;      
         font-weight: 400;
         line-height: 22.23px;
-        color: #221F52;
-        
-       
+        color: #221F52;    
 `
-
-function TesteBotaoTurno({rotulo}){
+const TurnoBotao = ({turno, onClick})=>{
     return(
-        <BotaoTurno>
-            <RotuloFormatado>{rotulo}</RotuloFormatado>
+        <BotaoTurno onClick={()=>onClick(turno)}>
+           <RotuloFormatado>
+                {turno}
+            </RotuloFormatado> 
         </BotaoTurno>
     )
 }
-export default TesteBotaoTurno
+
+export default TurnoBotao

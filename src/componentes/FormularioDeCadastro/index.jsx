@@ -2,13 +2,15 @@ import styled from 'styled-components';
 import { Titulo } from '../Titulo';
 import BuscarCidade from '../BuscarCidade';
 import SelecionarData from '../SelecionarData';
-import SelecioneTurno from '../SelecioneTurno';
 import InformeATemperatura from '../InformeATemperatura/InformeATemperatura';
 import InformeOClima from '../InformeOClima';
 import { BotaoEstilizado } from '../Botoes';
 import { useState } from 'react';
 import { AreaDeDados } from '../../AreaDeDados';
 import axios from 'axios';
+import { SubTitulo } from '../SubTitulo/SubTitulo';
+import RotuloDeCampo from "../RotuloDeCampo"
+import TurnoBotao from '../BotaoTurno';
 
 const Container = styled.div`
   display: flex;
@@ -21,7 +23,27 @@ const SessaoDeBotao = styled.section`
   height: 40px;
   margin-left: 516px;  
 `
+const ContainerSelecioneTurno = styled.div`
+  width: 256px;
+  height: 125px;
+  padding: 0;
+  margin:0;
+`
+const ContainerTitulo = styled.div`
+  width: 252px;
+  height: 39px;
+  padding: 0;
+  margin:0;
+  margin-bottom: 16px;
 
+`
+const ContainerDeTurnos = styled.div`
+    width: 256px;
+    height: 39px;
+    display: flex;
+    gap: 10px;
+    
+`
 
 
 function Formulario(){
@@ -30,9 +52,9 @@ const [cidadeSelecionada, setCidadeSelecionada]= useState(null);
 const [dataSelecionada, setDataSelecionada]= useState(null);
 const [temperaturaMaxima, setTemperaturaMaxima]= useState(null);
 const [temperaturaMinima, setTemperaturaMinima]= useState(null);
-const [turnoSelecionado, setTurnoSelecionado]= useState(null);
-const [climaSelecionado, setClimaSelecionado]= useState(null);
-const [preciptacaoSelecionada, setPreciptacaoSelecionada]= useState(null);
+const [turnoSelecionado, setTurnoSelecionado]= useState('');
+const [climaSelecionado, setClimaSelecionado]= useState('');
+const [precipitacao, setPrecipitacao]= useState('');
 const [umidadeSelecionada, setUmidadeSelecionada]= useState(null);
 const [velocidadeDoVento, setVelocidadeDoVento]= useState(null);
 
@@ -53,13 +75,13 @@ const handleTurnoSelecionado = (turnoSelecionado) =>{
   setTurnoSelecionado(turnoSelecionado)
 }
 
-const handleClimaSelecionado = (valores) =>{
-  setClimaSelecionado(valores.clima);
-  setPreciptacaoSelecionada(valores.precipitacao);
-  setUmidadeSelecionada(valores.umidade);
-  setVelocidadeDoVento(valores.velocidadeDoVento);
-}
+const handleClimaSelecionado = (valor) =>{
+  setClimaSelecionado(valor);
+ }
 
+ const handlePrecipitacao = (valor) =>{
+  setPrecipitacao(valor);
+ }
 const validarCampos = ()=>{
    console.log("cidade = "+cidadeSelecionada )
     console.log("data = "+dataSelecionada)
@@ -67,7 +89,7 @@ const validarCampos = ()=>{
     console.log("minima = "+temperaturaMinima)
     console.log("turno = "+turnoSelecionado)
     console.log("clima = "+climaSelecionado)
-    console.log("Precipitacao = "+preciptacaoSelecionada)
+    console.log("Precipitacao = "+precipitacao)
   
   return (
     cidadeSelecionada !== null 
@@ -76,7 +98,7 @@ const validarCampos = ()=>{
     && temperaturaMinima !== null
     && turnoSelecionado !== null
     && climaSelecionado !== null
-    && preciptacaoSelecionada !== null
+    && precipitacao !== null
     // && umidadeSelecionada !== null
     // && velocidadeDoVento !== null
   );
@@ -96,7 +118,7 @@ const salvarCampos = async()=>{
             temperaturaMaxima:temperaturaMaxima,
             turno: turnoSelecionado,
             clima: climaSelecionado,
-            precipitacao: preciptacaoSelecionada,
+            precipitacao: precipitacao,
             // umidade: umidadeSelecionada,
             // velocidadeDoVento 
         }]
@@ -135,17 +157,27 @@ const salvarCampos = async()=>{
                   valorInicial={{maxima: temperaturaMaxima, minima: temperaturaMinima}}
                   onInputChange={handleTemperatura}
               />
-              <SelecioneTurno
-                  value={turnoSelecionado}
-                  onChange={handleTurnoSelecionado}
-              />
+
+            <ContainerSelecioneTurno>
+                <ContainerTitulo>
+                <SubTitulo>Selecione o turno</SubTitulo>
+                </ContainerTitulo>
+                <RotuloDeCampo>Turno*</RotuloDeCampo>
+                <ContainerDeTurnos>
+                    <TurnoBotao  turno = "Manhã" onClick={()=> handleTurnoSelecionado("MANHA")}/>               
+                    <TurnoBotao  turno = "Tarde" onClick={()=> handleTurnoSelecionado("TARDE")}/>               
+                    <TurnoBotao  turno = "Noite" onClick={()=> handleTurnoSelecionado("NOITE")}/>               
+                </ContainerDeTurnos>
+            </ContainerSelecioneTurno>
              
             </Container>
 
             <Container>
                 <InformeOClima
-                  valorInicial={{clima: climaSelecionado, precipitacao: preciptacaoSelecionada, umidade: umidadeSelecionada, velocidadeDoVento: velocidadeDoVento}}
-                  onInputChange={handleClimaSelecionado}
+                  clima= {climaSelecionado}
+                  precipitacao = {precipitacao}
+                  onClimaChange= {handleClimaSelecionado}
+                  onPrecipitacaoChange = {handlePrecipitacao}
                 />              
            </Container>
             

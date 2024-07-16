@@ -15,7 +15,6 @@ const SelectComponent = () => {
             colorBorder:'#fff',
             
           },
-          
         },
       }}
     >
