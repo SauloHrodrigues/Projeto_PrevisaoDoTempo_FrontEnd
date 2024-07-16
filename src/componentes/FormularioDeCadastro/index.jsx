@@ -45,7 +45,6 @@ const ContainerDeTurnos = styled.div`
     
 `
 
-
 function Formulario(){
  
 const [cidadeSelecionada, setCidadeSelecionada]= useState(null);
@@ -53,10 +52,10 @@ const [dataSelecionada, setDataSelecionada]= useState(null);
 const [temperaturaMaxima, setTemperaturaMaxima]= useState(null);
 const [temperaturaMinima, setTemperaturaMinima]= useState(null);
 const [turnoSelecionado, setTurnoSelecionado]= useState('');
-const [climaSelecionado, setClimaSelecionado]= useState('');
+const [clima, setClimaSelecionado]= useState('');
 const [precipitacao, setPrecipitacao]= useState('');
-const [umidadeSelecionada, setUmidadeSelecionada]= useState(null);
-const [velocidadeDoVento, setVelocidadeDoVento]= useState(null);
+const [umidade, setUmidade]= useState('');
+const [velocidadeDoVento, setVelocidadeDoVento]= useState();
 
 const handleCidadeSelecionada = (cidade) =>{
   setCidadeSelecionada(cidade);
@@ -82,25 +81,27 @@ const handleClimaSelecionado = (valor) =>{
  const handlePrecipitacao = (valor) =>{
   setPrecipitacao(valor);
  }
+
+ const handleUmidade = (valor) =>{
+  setUmidade(valor);
+ }
+
+ const handleVelocidadeDoVento = (valor) =>{
+  setVelocidadeDoVento(valor);
+ }
+
 const validarCampos = ()=>{
-   console.log("cidade = "+cidadeSelecionada )
-    console.log("data = "+dataSelecionada)
-    console.log("maxima = "+temperaturaMaxima)
-    console.log("minima = "+temperaturaMinima)
-    console.log("turno = "+turnoSelecionado)
-    console.log("clima = "+climaSelecionado)
-    console.log("Precipitacao = "+precipitacao)
-  
+   
   return (
     cidadeSelecionada !== null 
     && dataSelecionada !== null
     && temperaturaMaxima !== null
     && temperaturaMinima !== null
     && turnoSelecionado !== null
-    && climaSelecionado !== null
+    && clima !== null
     && precipitacao !== null
-    // && umidadeSelecionada !== null
-    // && velocidadeDoVento !== null
+    && umidade !== null
+    && velocidadeDoVento !== null
   );
 
 };
@@ -111,17 +112,17 @@ const salvarCampos = async()=>{
     try{
       const dados = {
         nome: cidadeSelecionada,
-        dadosMeteorologicos:[{
+        dadosMeteorologicos:{
             nomeDaCidade: cidadeSelecionada,
             data: dataSelecionada,
             temperaturaMinima: temperaturaMinima,
             temperaturaMaxima:temperaturaMaxima,
             turno: turnoSelecionado,
-            clima: climaSelecionado,
+            clima: clima,
             precipitacao: precipitacao,
-            // umidade: umidadeSelecionada,
-            // velocidadeDoVento 
-        }]
+            umidade: umidade,
+            velocidadeDoVento: velocidadeDoVento
+        }
 
       };
 
@@ -129,6 +130,7 @@ const salvarCampos = async()=>{
         headers: { 'Content-Type': 'application/json' },
 
       });
+      console.log('Requisição = '+dados)
       if(resposta.status === 201){
         console.log("Salvou com sucesso!")
       }
@@ -174,10 +176,14 @@ const salvarCampos = async()=>{
 
             <Container>
                 <InformeOClima
-                  clima= {climaSelecionado}
+                  clima= {clima}
                   precipitacao = {precipitacao}
+                  umidade = {umidade}
+                  velocidadeDoVento = {velocidadeDoVento}
                   onClimaChange= {handleClimaSelecionado}
                   onPrecipitacaoChange = {handlePrecipitacao}
+                  onUmidadeChange = {handleUmidade}
+                  onVelocidadeDoVentoChange = {handleVelocidadeDoVento}
                 />              
            </Container>
             

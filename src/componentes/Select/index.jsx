@@ -1,33 +1,28 @@
 import React from 'react';
 import { ConfigProvider, Select} from 'antd';
 
+const { Option } = Select;
+const SelectComponent = ({value, onChange, options}) => {
 
-const SelectComponent = () => {
+  const handleSelectChange = (valor)=>{
+    onChange(valor);
+  }
   return(
-  <>
-    <ConfigProvider
-      theme={{
-        components: {
-          Select: {
-            colorPrimary: '#00b96b',
-            padding:'8px 12px 8px 12px',
-            colorInfoBorderHover: '#fff',
-            colorBorder:'#fff',
-            
-          },
-        },
-      }}
-    >
     <Select       
-        defaultValue="Selecione um clima"     
+        value={value}
+        onChange={handleSelectChange}     
         style={{borderRadius:'6px', border:'solid 2px #414ABA', width: '207px',
             height: '40px'}}      
-        options={[{value: 'ENSOLARADO',label: 'Ensolarado'},
-          {value: 'CHUVOSO',label: 'Chuvoso'},
-          {value: 'NUBLADO',label: 'Nublado'}
-]}/> 
-    </ConfigProvider>
-  </>
-)};
+        
+      >
+        {options.map(opcao => (
+          <Option key={opcao.value} value={opcao.value}>
+              {opcao.label}
+          </Option> ))
+        }
+      </Select>
+     )
+    };
+    export default SelectComponent;
+   
 
-export default SelectComponent;
