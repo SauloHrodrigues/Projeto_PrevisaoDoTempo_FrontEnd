@@ -1,10 +1,11 @@
 import styled from "styled-components"
    
         const RotuloDoCampo = styled.h5`
-        width: 100px;
+        width: 150px;
         height: 22px;
         padding:0 ;
         margin: 0;
+
         font-family: TT-Supermolot-Regular;
         font-size: 18px;
         font-weight: 400;

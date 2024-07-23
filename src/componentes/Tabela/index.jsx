@@ -1,15 +1,34 @@
+import { useNavigate } from 'react-router-dom';
+
 import React, { useEffect, useState } from 'react';
-import { Table, Tag, Space } from "antd";
+import { Table, Tag, Space, Pagination, Button, Popconfirm } from "antd";
 import axios from "axios";
 import { FaSearch } from "react-icons/fa";
+import RotuloDoCampo from '../RotuloDeCampo';
+
 
 const Tabela = () => {
     const [dados, setDados] = useState([]);
     const [cidadeBuscada, setCidadeBuscada] = useState('');
+    const [dadosMeteorologicosPorId, setDadosMeteorologicosPorId] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [total, setTotal] = useState(0);
+    const [allData, setAllData] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         buscarTodosDados();
     }, []);
+
+    useEffect(() => {
+        atualizarPaginacao();
+    }, [currentPage, pageSize, allData]);
+
+    const abrirPaginaDeCadastro = (id) => {
+        navigate(`/cadastro/${id}`);
+      };
 
     const buscarTodosDados = async () => {
         try {
@@ -29,10 +48,25 @@ const Tabela = () => {
         }
     };
 
+    const deletarDadoMeteorologicoPorId = async (id) => {
+        try {
+          await axios.delete(`http://localhost:8080/previsao/clima/dados/${id}`);
+            
+          setDados((prevData) => prevData.filter((item) => item.id !== id));          
+            
+        } catch (error) {
+    
+            console.error('Erro ao deletar o dado: ', error.message);
+
+        }
+    
+    }
+
     const listaCidadeToListaDadosMeteorologicos = (listaCidade) => {
         const resposta = listaCidade.flatMap((cidade) => 
             cidade.dadosMeteorologicos.map((dado) => ({
                 key: `${cidade.id}-${dado.data}-${dado.turno}`,
+                id: dado.id,
                 cidade: cidade.nome,
                 data: dado.data,
                 temperatura: `${dado.temperaturaMaxima} / ${dado.temperaturaMinima}`,
@@ -43,12 +77,15 @@ const Tabela = () => {
                 vento: dado.velocidadeDoVento,
             }))
         );
-        setDados(resposta);
+        setTotal(resposta.length);
+        setAllData(resposta);
+        setDados(resposta.slice(0, pageSize)); 
     };
 
     const cidadeToListaDadosMeteorologicos = (cidade) => {
         const resposta = cidade.dadosMeteorologicos.map((dado) => ({
             key: cidade.id,
+            id: dado.id,
             cidade: cidade.nome,
             data: dado.data,
             temperatura: `${dado.temperaturaMaxima} / ${dado.temperaturaMinima}`,
@@ -58,7 +95,21 @@ const Tabela = () => {
             umidade: dado.umidade,
             vento: dado.velocidadeDoVento,
         }));
-        setDados(resposta);
+        setTotal(resposta.length);
+        setAllData(resposta);
+        setDados(resposta.slice(0, pageSize)); 
+    };
+
+    const atualizarPaginacao = () => {
+        const startIndex = (currentPage - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+
+        setDados(allData.slice(startIndex, endIndex));
+    };
+
+    const handlePageChange = (page, pageSize) => {
+        setCurrentPage(page);
+        setPageSize(pageSize);
     };
 
     const handleKeyDown = (event) => {        
@@ -66,6 +117,7 @@ const Tabela = () => {
             buscarDadosPorCidade();
         } 
     };
+
 
     const columns = [
         {
@@ -94,7 +146,7 @@ const Tabela = () => {
             dataIndex: 'turno',
             render: (turno) => (
                 <Tag 
-                    color={turno === "MANHA" ? 'geekblue' : turno === "TARDE" ? 'volcano' : 'green'}
+                    color={turno === "MANHA" ? 'gold' : turno === "TARDE" ? 'volcano' : 'purple'}
                     key={turno}>
                     {turno.toUpperCase()}
                 </Tag>
@@ -102,10 +154,17 @@ const Tabela = () => {
         },
         {
             key: 'action',
-            render: (_) => (
+            render: (text, record) => (
               <Space size="middle">
-                <a>Editar</a>
-                <a>Deletar</a>
+                <a onClick={() => abrirPaginaDeCadastro(record.id)}>Editar</a>
+                <Popconfirm
+                    title="Você tem certeza que deseja deletar?"
+                    onConfirm={() => deletarDadoMeteorologicoPorId(record.id)}
+                    okText="Sim"
+                    cancelText="Não"
+                >
+                    <a>Deletar</a>
+                </Popconfirm>
               </Space>
             ),
         },
@@ -140,8 +199,10 @@ const Tabela = () => {
         return <Table columns={columnsExtends} dataSource={dataSource} pagination={false} />;
     };
 
+
     return (
         <>
+            <RotuloDoCampo>Cidade*</RotuloDoCampo>
             <div style={{
                 width: "458px",
                 height: "40px",
@@ -151,6 +212,7 @@ const Tabela = () => {
                 display: 'flex',
                 alignItems: 'center'
             }}>
+                
                 <input style={{
                     border: 'none',
                     padding: '5px 10px',
@@ -176,9 +238,20 @@ const Tabela = () => {
                 expandable={{
                     expandedRowRender,
                 }} 
+                pagination={false} 
+                
             />
+            <div style={{display: "flex", marginTop: "10px", justifyContent: "center"}}>
+                <Pagination
+                    current={currentPage}
+                    pageSize={pageSize}
+                    total={total}
+                    onChange={handlePageChange}
+                    showSizeChanger
+                    onShowSizeChange={handlePageChange}
+                />
+            </div>
         </>
     );
 };
-
 export default Tabela;

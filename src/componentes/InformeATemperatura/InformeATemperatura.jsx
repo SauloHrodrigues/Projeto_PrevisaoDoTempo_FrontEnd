@@ -4,6 +4,7 @@ import RotuloDeCampo from "../RotuloDeCampo"
 
 import CaixaImputFormatada from '../Input'
 import { useEffect, useState } from "react";
+import React from 'react';
 
 const ContainerInformeTemperatura = styled.div`
   width: 339px;
@@ -67,14 +68,17 @@ function InformeATemperatura({valorInicial, onInputChange }){
                         <CaixaImputFormatada largura="90%" altura="36px" placeholder="Digite aqui" value={temperaturaMaxima} 
                         onChange={handleMaxima}
                         />
+                         
                     </DivMaxima>
                     <DivMaxima>
                         <RotuloDeCampo>Mínima</RotuloDeCampo>
                         <CaixaImputFormatada largura="90%" altura="36px" placeholder="Digite aqui"  value={temperaturaMinima}
                         onChange={handleMinima}
                         />
+                       
                     </DivMaxima>
                 </DivMaximaMinima>
+              
             </ContainerInformeTemperatura>
        
     )

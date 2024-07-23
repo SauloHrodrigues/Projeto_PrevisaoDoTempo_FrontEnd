@@ -1,6 +1,7 @@
 
 import styled from 'styled-components'
 import Logo from '../Logo'
+import React from 'react';
 
 const HederContainer = styled.header`
   display: flex;

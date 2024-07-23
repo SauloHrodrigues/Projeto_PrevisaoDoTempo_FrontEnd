@@ -1,5 +1,6 @@
 import { Button } from "antd";
 import styled from "styled-components";
+import React from 'react';
 
 const BotaoTurno = styled(Button)`
     width: 75px;

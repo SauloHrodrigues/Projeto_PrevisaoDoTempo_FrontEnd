@@ -5,6 +5,7 @@ import FormularioDeListaDeDadosMeteorologico from './componentes/FormularioDeLis
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import styled from 'styled-components';
 import FormularioDeCadastro from './componentes/FormularioDeCadastro';
+import React from 'react';
 
 const AppContainer = styled.div` 
   
@@ -17,7 +18,7 @@ const AppContainer = styled.div`
       list-style: none;
     }
   `
-
+// "test": "react-scripts test",
 
 function App() {
 
@@ -25,9 +26,12 @@ function App() {
     <Router>
       <AppContainer>
         <Header />
-        <Breadcrumb />
+        {/* <Breadcrumb /> */}
         <Routes>
           <Route path='/' element={<FormularioDeCadastro/>} />
+        </Routes>
+        <Routes>
+          <Route path='/cadastro/:id' element={<FormularioDeCadastro/>} />
         </Routes>
         <Routes>
           <Route path='/listardados' element={<FormularioDeListaDeDadosMeteorologico/>} />

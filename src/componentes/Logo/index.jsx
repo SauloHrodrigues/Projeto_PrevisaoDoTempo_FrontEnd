@@ -1,5 +1,6 @@
 import logo from '../../imagens/logo_db.png'
 import styled from 'styled-components'
+import React from 'react';
 
 
 const LogoContainer =styled.div`

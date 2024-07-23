@@ -3,6 +3,7 @@ import { SubTitulo } from "../SubTitulo/SubTitulo";
 import RotuloDeCampo from "../RotuloDeCampo";
 import SelectComponent from "../Select";
 import { InputNumber, Select } from 'antd'
+import React from 'react';
 
 const InformeOClimaContainer = styled.section`
     width: 100%;

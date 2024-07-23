@@ -5,6 +5,7 @@ import {SearchOutlined} from "@ant-design/icons"
 import { Input } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import React from 'react';
 
 
 const BuscarCidadeContainer = styled.div`
@@ -31,11 +32,19 @@ const Lupa = styled(SearchOutlined)`
   gap: 10px;
 `
 
-function BuscarCidade({onInputChange}){
-  const [cidadeBuscada, setCidadeBuscada] = useState("");
+
+function BuscarCidade({value, onInputChange, disabilit}){
+  const [cidadeBuscada, setCidadeBuscada] = useState(value || null);
+
+  useEffect(()=> {
+    setCidadeBuscada(value || null);
+    console.log('Capitura cidade = '+ value);
+  }, [value])
 
   const capturaCidade =(evento) =>{
+    
     const valor = evento.target.value;
+   
     setCidadeBuscada(valor);
     if(onInputChange){
       onInputChange(valor);
@@ -54,14 +63,17 @@ function BuscarCidade({onInputChange}){
                 Buscar Cidade
             </RotuloDeCampo>
           </label>
-  
+            
               <CidadeInput 
                   type="search" 
                   placeholder="Digite o nome da cidade"
                   suffix={<Lupa /> } 
                   value={cidadeBuscada} 
-                  onChange={capturaCidade}/>
-             
+                  onChange={capturaCidade}
+                  disabled = {disabilit}
+                  />
+                  
+                  
         </BuscarCidadeContainer>
         
     )

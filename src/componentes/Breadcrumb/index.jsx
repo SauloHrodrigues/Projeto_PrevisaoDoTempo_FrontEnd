@@ -29,7 +29,7 @@ const BreadcrumbContainer = styled.div`
 
 `;
  
-const CustomBreadcrumb = () => {
+const CustomBreadcrumb = ({rota}) => {
 
     const breadcrumbItems = [
 
@@ -55,7 +55,7 @@ const CustomBreadcrumb = () => {
 
         {
 
-            title: 'Cadastro de dados metereológicos',
+            title: rota,
 
             style: {
 
