@@ -7,6 +7,7 @@ import { FaSearch } from "react-icons/fa";
 import RotuloDoCampo from '../RotuloDeCampo';
 
 
+
 const Tabela = () => {
     const [dados, setDados] = useState([]);
     const [cidadeBuscada, setCidadeBuscada] = useState('');

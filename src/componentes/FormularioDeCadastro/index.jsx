@@ -18,8 +18,9 @@ import CustomBreadcrumb from '../Breadcrumb';
 import React from 'react';
 import { Form, InputNumber, Select } from 'antd';
 import SelectComponent from '../Select';
-
-
+import { Input } from "antd";
+import {SearchOutlined} from "@ant-design/icons"
+import { DatePicker } from "antd";
 
 const Container = styled.div`
   display: flex;
@@ -109,6 +110,46 @@ const InputNumberSemSetas = styled.input`
         margin: 0;
     }
 `;
+
+const CidadeInput = styled(Input)`
+   width: 458px;
+   height: 40px;
+   border-radius: 6px;
+   border: 2px solid #414aba;
+   //inserir figura
+`
+
+const Lupa = styled(SearchOutlined)`
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  border: 0px 1px 0px 1px;
+  padding: 0px 0px 0px 0px;
+  gap: 10px;
+`
+
+const BuscarCidadeContainer = styled.div`
+  width: 466px;
+  height: 125px;
+  padding: 0;
+  margin: 0; 
+`
+const SelecionarDataContainer = styled.div`
+  width: 236px;
+  height: 125px;
+  padding: 0;
+  margin:0;
+  margin-left: 122px;
+`
+
+const DatePickerFormatado = styled(DatePicker)` 
+   width: 200px;
+   height: 40px;
+   border-radius: 6px;
+   border: 2px solid #414aba;
+   padding: 8px 12px;
+`
+
 const {Option}= Select;
 
 const optionsList = [
@@ -149,6 +190,18 @@ useEffect(() => {
         setPrecipitacao(data.precipitacao);
         setUmidade(data.umidade);
         setVelocidadeDoVento(data.velocidadeDoVento);
+        form.setFieldsValue({
+          cidadeSelecionada: data.nomeDaCidade,
+          dataSelecionada: moment(data.data.replace(/\//g, "-"), "YYYY-MM-DD"),
+          temperaturaMaxima: data.temperaturaMaxima,
+          temperaturaMinima: data.temperaturaMinima,
+          turnoSelecionado: data.turno,
+          clima: data.clima,
+          precipitacao: data.precipitacao,
+          umidade: data.umidade,
+          velocidadeDoVento: data.velocidadeDoVento,
+        });
+
         console.log('Nome da cidade ', data.nomeDaCidade)
         console.log('Data - ', data.data)
         console.log('Data selecionada - ', dataSelecionada)
@@ -156,8 +209,16 @@ useEffect(() => {
   }
 }, [id]);
 
+
+useEffect(() => {
+  console.log('Cidade selecionada atualizada:', cidadeSelecionada);
+}, [cidadeSelecionada]);
+ 
 const handleCidadeSelecionada = (cidade) =>{
-  setCidadeSelecionada(cidade);
+ const valor = cidade.target.value;
+  console.log('o valor de valor no hendler = '+ valor)
+  setCidadeSelecionada(valor);
+  console.log('valor da cidade selecionada no hendler ='+ cidadeSelecionada)
 }
 
 const handleDataSelecionada = (dataSelecionada) =>{
@@ -206,15 +267,23 @@ const validarCampos = ()=>{
 };
 
 const validaExistenciaDaCidade = async (cidade)=>{
-  const  resposta = await axios.get(`http://localhost:8080/previsao/clima/cidade/${cidade}`);
-  return resposta;
+  try {
+    const  resposta = await axios.get(`http://localhost:8080/previsao/clima/cidade/${cidade}`);
+    return resposta;
+  } catch (error) {
+    return 400;
+  }
 }
 
 const salvarCampos = async()=>{
   console.log("Entrou no salvar campos")
     if(validarCampos()){
+      console.log('Campos válidos.');
+   
       const  resposta = await validaExistenciaDaCidade(cidadeSelecionada)
-      if( resposta.status == 200){
+      console.log('Resposta = '+resposta.status);
+      if( resposta && resposta.status == 200){
+  
         try{
           const dados = {
             nomeDaCidade: cidadeSelecionada,
@@ -267,8 +336,17 @@ const salvarCampos = async()=>{
                 precipitacao: precipitacao,
                 umidade: umidade,
                 velocidadeDoVento: velocidadeDoVento
-            }
+            }            
           };
+          console.log('Dados: ');
+          console.log('Nome da cidade: '+ dados.dadosMeteorologicos.nomeDaCidade);
+          console.log('Nome da cidade: '+ dados.dadosMeteorologicos.nomeDaCidade);
+          console.log('Temperatura minima: '+ dados.dadosMeteorologicos.temperaturaMinima);
+          console.log('Temperatura maxima: '+ dados.dadosMeteorologicos.temperaturaMaxima);
+          console.log('Turno: '+ dados.dadosMeteorologicos.turno);
+          console.log('Clima: '+ dados.dadosMeteorologicos.clima);
+          console.log('Clima: '+ dados.dadosMeteorologicos.clima);
+
    
           const resposta = await axios.post("http://localhost:8080/previsao/clima/cidade/", dados, {
             headers: { 'Content-Type': 'application/json' },
@@ -291,36 +369,56 @@ const salvarCampos = async()=>{
       <>
         <CustomBreadcrumb rota={"Cadastro de dados metereológicos" } />
         <AreaDeDados>
-        
+          
             <Titulo>Cadastro de dados meteorológicos</Titulo>
             <Form form={form}>
               <Container>
-                <Form.Item  
-                  name="cidadeSelecionada"
-                  rules={[{required:true, message: "Selecione uma cidade."}]}
-                >
-                  <BuscarCidade 
-                      value={cidadeSelecionada} 
-                      onInputChange={handleCidadeSelecionada}
-                      disabilit ={id != null}
-                  />
-                </Form.Item>
-                
-                <Form.Item  
-                  name="dataSelecionada"
-                  rules={[{required:true, message: "Informe uma data"}]}
-                >
-                   <SelecionarData
-                      value={dataSelecionada} 
-                      onInputChange={handleDataSelecionada}
-                  />
+                    <BuscarCidadeContainer>
+                      <SubTitulo>Buscar Cidade</SubTitulo>
+                        <label>
+                          <RotuloDeCampo>
+                              Buscar Cidade
+                          </RotuloDeCampo>
+                        </label>
+                      
+                          <Form.Item  
+                              name="cidadeSelecionada"
+                              rules={[{required:true, message: "Selecione uma cidade."}]}
+                          >
+                            
+                            <CidadeInput 
+                              type="search" 
+                              placeholder="Digite o nome da cidade"
+                              suffix={<Lupa /> } 
+                              value={cidadeSelecionada} 
+                              onChange={handleCidadeSelecionada}
+                              disabled = {id != null}
+                            /> 
+                          </Form.Item>
+                      </BuscarCidadeContainer>
 
-                </Form.Item>
+                      <SelecionarDataContainer>
+                            <SubTitulo>Selecione a data</SubTitulo>
+                            <label>
+                              <RotuloDeCampo>Data</RotuloDeCampo>
+                            </label>
+                            <Form.Item  
+                                name="dataSelecionada"
+                                rules={[{required:true, message: "Informe uma data"}]}
+                            >
+                              
+                            <DatePickerFormatado value={dataSelecionada}
+                              onChange={handleDataSelecionada}
+                              format="YYYY-MM-DD"
+                            >
+                            </DatePickerFormatado>
+                          </Form.Item>
+                  </SelecionarDataContainer>
               </Container>
 
               <Container>
                 <Form.Item  
-                    name="dataSelecionada"
+                    name="temperaturaSelecionada"
                     rules={[{required:true, message: "Informe a temperatura"}]}
                 >
                   <InformeATemperatura
@@ -348,20 +446,6 @@ const salvarCampos = async()=>{
               </ContainerSelecioneTurno>
               
               </Container>
-
-              {/* <Container> */}
-
-                  {/* <InformeOClima
-                    clima= {clima}
-                    precipitacao = {precipitacao}
-                    umidade = {umidade}
-                    velocidadeDoVento = {velocidadeDoVento}
-
-                    onClimaChange= {handleClimaSelecionado}
-                    onPrecipitacaoChange = {handlePrecipitacao}
-                    onUmidadeChange = {handleUmidade}
-                    onVelocidadeDoVentoChange = {handleVelocidadeDoVento}
-                  />               */}
 
             <SubTitulo>Informe o clima</SubTitulo>
             <InformeOClimaContainer>
@@ -423,7 +507,6 @@ const salvarCampos = async()=>{
 
               </ContainerDeDados>
             </InformeOClimaContainer>
-            {/* </Container> */}
               
             <Container>
                   <SessaoDeBotao>

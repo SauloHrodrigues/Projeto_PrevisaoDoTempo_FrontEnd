@@ -15,5 +15,10 @@ describe('tela de cadastro', () => {
     cy.get('.ant-select-selector').click();
     cy.get('.ant-select-item-option').contains('Chuvoso').click();
     cy.get('.cucyjA').click();
+    cy.wait(5000);
+    cy.visit('http://localhost:3000/listardados')
+    cy.get('[style="width: 458px; height: 40px; border-radius: 6px; border: 2px solid rgb(65, 74, 186); margin-bottom: 10px; display: flex; align-items: center;"] > input').type('Campinas').type('{enter}');
+    cy.get('.ant-space > :nth-child(2) > a').click();
+    cy.get('.ant-btn-primary > span').click();
   })
 })

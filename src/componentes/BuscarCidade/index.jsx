@@ -32,26 +32,18 @@ const Lupa = styled(SearchOutlined)`
   gap: 10px;
 `
 
+function BuscarCidade({onInputChange, disabilit}){
+  const [cidadeBuscada, setCidadeBuscada] = useState('');
 
-function BuscarCidade({value, onInputChange, disabilit}){
-  const [cidadeBuscada, setCidadeBuscada] = useState(value || null);
-
-  useEffect(()=> {
-    setCidadeBuscada(value || null);
-    console.log('Capitura cidade = '+ value);
-  }, [value])
 
   const capturaCidade =(evento) =>{
     
     const valor = evento.target.value;
    
     setCidadeBuscada(valor);
-    if(onInputChange){
       onInputChange(valor);
+      console.log("Valor = "+valor)
     }
-    
-
-   }
   
     return(
         <BuscarCidadeContainer>
