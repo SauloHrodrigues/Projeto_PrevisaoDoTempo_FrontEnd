@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import styled from 'styled-components';
 import FormularioDeCadastro from './componentes/FormularioDeCadastro';
 import React from 'react';
+import { Toaster } from 'react-hot-toast';
 
 const AppContainer = styled.div` 
   
@@ -37,6 +38,7 @@ function App() {
           <Route path='/listardados' element={<FormularioDeListaDeDadosMeteorologico/>} />
         </Routes>
       </AppContainer>
+      <Toaster/>
     </Router>
 
 

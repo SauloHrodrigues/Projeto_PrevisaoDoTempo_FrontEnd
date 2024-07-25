@@ -22,7 +22,9 @@ import { Input } from "antd";
 import {SearchOutlined} from "@ant-design/icons"
 import { DatePicker } from "antd";
 import CaixaImputFormatada from '../Input'
+import toast, {Toaster} from 'react-hot-toast';
 
+const notificacaoDeErro = () => toast('Por favor, Preencha todos os campos do formulário.');
 const Container = styled.div`
   display: flex;
   padding: 0;
@@ -303,6 +305,8 @@ const validaExistenciaDaCidade = async (cidade)=>{
 
 const salvarCampos = async()=>{
   console.log("Entrou no salvar campos")
+
+
     if(validarCampos()){
       console.log('Campos válidos.');
    
@@ -388,6 +392,9 @@ const salvarCampos = async()=>{
           console.log("Error: ", error)
         }
       }
+    }else{
+      toast.error('Por favor, preencha todos os campos antes de salvar.');
+      
     }
 }//fim do salvarCodigo
 
