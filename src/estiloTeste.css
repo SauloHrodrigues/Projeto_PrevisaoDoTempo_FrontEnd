@@ -5,6 +5,7 @@ margin: 0;
 font 
 */
 width: 62px;
+display: block;
 height: 22px;
 padding-top: 16px;
 padding: 0px 13px 0px 13px;
@@ -12,7 +13,7 @@ background-image:  url(../../imagens/lupa.png) no-repeat center right;
 background-color: yellow;
 /* font-family: TT-Supermolot-Bold; */
 display: block;
-margin-right: 9px;
+margin-right: 60px;
 margin-left: 60px;
 margin-top: 16px;
 margin-bottom: 16px;

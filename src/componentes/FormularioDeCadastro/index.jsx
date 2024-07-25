@@ -21,17 +21,44 @@ import SelectComponent from '../Select';
 import { Input } from "antd";
 import {SearchOutlined} from "@ant-design/icons"
 import { DatePicker } from "antd";
+import CaixaImputFormatada from '../Input'
 
 const Container = styled.div`
   display: flex;
   padding: 0;
   margin-top: 40px;
-  
 `
+
 const SessaoDeBotao = styled.section`
   width: 409px;
   height: 40px;
   margin-left: 516px;  
+`
+
+const ContainerTitulo = styled.div`
+  width: 252px;
+  height: 39px;
+  padding: 0;
+  margin:0;
+  margin-bottom: 16px;
+`
+const ContainerTemperaturas = styled.div`
+  width: 329px;
+  height: 125px;
+  padding: 0;
+  margin:0;
+  margin-right: 259px;
+`
+const ContainerImputTemperaturas = styled.div`
+  display: flex;
+  width: 100%;
+  height: auto;
+  padding: 0;
+  margin:0;
+  margin-right: 259px;
+`
+const ContainerBlock = styled.div`
+  display: block;
 `
 const ContainerSelecioneTurno = styled.div`
   width: 256px;
@@ -39,20 +66,11 @@ const ContainerSelecioneTurno = styled.div`
   padding: 0;
   margin:0;
 `
-const ContainerTitulo = styled.div`
-  width: 252px;
-  height: 39px;
-  padding: 0;
-  margin:0;
-  margin-bottom: 16px;
-
-`
-const ContainerDeTurnos = styled.div`
+const ContainerBotaoDeTurnos = styled.div`
     width: 256px;
     height: 39px;
     display: flex;
     gap: 10px;
-    
 `
 const InformeOClimaContainer = styled.section`
     width: 100%;
@@ -66,25 +84,20 @@ const ContainerDeDados = styled.div`
 const ContainerClima = styled.section`
     width: 207px
     height: 70px;
-
+    margin-right: 60px;
 `
 const ContainerPrecipitacao = styled.section`
     width: 107px
     height: 76px;
-    
-
 `
 const ContainerUmidade = styled.section`
     width: 90px
     height: 76px;
-   
 `
 const ContainerVelocidadeCoVento = styled.section`
     width: 171px
     height: 76px;
-    
     white-space: nowrap;
-    
 `
 const InputNumberCustomer = styled(InputNumber)`
     width: 90px
@@ -134,6 +147,14 @@ const BuscarCidadeContainer = styled.div`
   padding: 0;
   margin: 0; 
 `
+const ContainerClimaInputs = styled.div`
+  width: 100%;
+  height: auto;
+  padding: 0;
+  margin: 0; 
+  display: block;
+`
+
 const SelecionarDataContainer = styled.div`
   width: 236px;
   height: 125px;
@@ -168,13 +189,13 @@ function Formulario() {
  
 const [cidadeSelecionada, setCidadeSelecionada]= useState('');
 const [dataSelecionada, setDataSelecionada]= useState(null);
-const [temperaturaMaxima, setTemperaturaMaxima]= useState(null);
-const [temperaturaMinima, setTemperaturaMinima]= useState(null);
+const [temperaturaMaxima, setTemperaturaMaxima]= useState('');
+const [temperaturaMinima, setTemperaturaMinima]= useState('');
 const [turnoSelecionado, setTurnoSelecionado]= useState('');
 const [clima, setClimaSelecionado]= useState('');
 const [precipitacao, setPrecipitacao]= useState('');
 const [umidade, setUmidade]= useState('');
-const [velocidadeDoVento, setVelocidadeDoVento]= useState();
+const [velocidadeDoVento, setVelocidadeDoVento]= useState('');
 
 useEffect(() => {
   if (id) {
@@ -225,13 +246,18 @@ const handleDataSelecionada = (dataSelecionada) =>{
   setDataSelecionada(dataSelecionada);
 }
 
-const handleTemperatura = (temperatura) =>{
-  setTemperaturaMaxima(temperatura.maxima);
-  setTemperaturaMinima(temperatura.minima);
+const handleTemperaturaMaxima = (e) =>{
+  setTemperaturaMaxima(e.target.value);
+}
+const handleTemperaturaMinima = (e) =>{
+  setTemperaturaMinima(e.target.value);
 }
 
 const handleTurnoSelecionado = (turnoSelecionado) =>{
   setTurnoSelecionado(turnoSelecionado)
+  form.setFieldsValue({
+    turnoSelecionado: turnoSelecionado
+   });
 }
 
 const handleClimaSelecionado = (valor) =>{
@@ -372,7 +398,7 @@ const salvarCampos = async()=>{
           
             <Titulo>Cadastro de dados meteorológicos</Titulo>
             <Form form={form}>
-              <Container>
+              <Container id='buscarCidade_data'>
                     <BuscarCidadeContainer>
                       <SubTitulo>Buscar Cidade</SubTitulo>
                         <label>
@@ -416,99 +442,146 @@ const salvarCampos = async()=>{
                   </SelecionarDataContainer>
               </Container>
 
-              <Container>
-                <Form.Item  
-                    name="temperaturaSelecionada"
-                    rules={[{required:true, message: "Informe a temperatura"}]}
-                >
-                  <InformeATemperatura
-                      valorInicial={{maxima: temperaturaMaxima, minima: temperaturaMinima}}
-                      onInputChange={handleTemperatura}
-                  />
-                </Form.Item>
+              <Container id='temperatura_turno'>
+                <ContainerTemperaturas>
+                  <SubTitulo>Informe a temperatura</SubTitulo>
+                  <ContainerImputTemperaturas>
+                      <ContainerBlock>
+                          <RotuloDeCampo>Máxima</RotuloDeCampo>
+                          <Form.Item  
+                                  name="temperaturaMaxima"
+                                  rules={[{required:true, message: "Informe a temperatura"}]}
+                              >
+                              <CaixaImputFormatada
+                                  largura="90px"
+                                  altura="40px"
+                                  placeholder="Digite aqui"
+                                  value={temperaturaMaxima} 
+                                  onChange={handleTemperaturaMaxima}
+                              />
+                          </Form.Item>
 
-              <ContainerSelecioneTurno>
-                  <ContainerTitulo>
-                  <SubTitulo>Selecione o turno</SubTitulo>
-                  </ContainerTitulo>
-                  <RotuloDeCampo>Turno*</RotuloDeCampo>
+                      </ContainerBlock>
+                      <ContainerBlock>
+                          <RotuloDeCampo>Mínima</RotuloDeCampo>
+                          <Form.Item  
+                                  name="temperaturaMinima"
+                                  rules={[{required:true, message: "Informe a temperatura."}]}
+                              >
+                              <CaixaImputFormatada 
+                                  largura="90px"
+                                  altura="40px"
+                                  placeholder="Digite aqui"
+                                  value={temperaturaMinima} 
+                                  onChange={handleTemperaturaMinima}
+                              />
+                          </Form.Item>
+                     </ContainerBlock>
+                  </ContainerImputTemperaturas>
 
-                  <Form.Item  
-                    name="turnoSelecionado"
-                    rules={[{required:true, message: "Informe o turno"}]}
-                  >
-                    <ContainerDeTurnos>
-                        <TurnoBotao  turno = "Manhã" onClick={()=> handleTurnoSelecionado("MANHA")}/>               
-                        <TurnoBotao  turno = "Tarde" onClick={()=> handleTurnoSelecionado("TARDE")}/>               
-                        <TurnoBotao  turno = "Noite" onClick={()=> handleTurnoSelecionado("NOITE")}/>               
-                    </ContainerDeTurnos>
-                  </Form.Item>
-              </ContainerSelecioneTurno>
+                </ContainerTemperaturas>
+
+                <ContainerSelecioneTurno>
+                    <ContainerTitulo>
+                    <SubTitulo>Selecione o turno</SubTitulo>
+                    </ContainerTitulo>
+                    <RotuloDeCampo>Turno*</RotuloDeCampo>
+
+      
+                      <ContainerBotaoDeTurnos>
+                          <Form.Item  
+                            name="turnoSelecionado"
+                            rules={[{required:true, message: "Informe o turno"}]}
+                          >
+                            <div>
+                              <TurnoBotao  turno = "Manhã" onClick={()=> handleTurnoSelecionado("MANHA")}/>               
+                              <TurnoBotao  turno = "Tarde" onClick={()=> handleTurnoSelecionado("TARDE")}/>               
+                              <TurnoBotao  turno = "Noite" onClick={()=> handleTurnoSelecionado("NOITE")}/> 
+                            </div>
+                            </Form.Item>              
+                      </ContainerBotaoDeTurnos>
+                    
+                </ContainerSelecioneTurno>
               
               </Container>
+     
+            <Container id='Clima'>
+                <ContainerClimaInputs>
 
-            <SubTitulo>Informe o clima</SubTitulo>
-            <InformeOClimaContainer>
-              <ContainerDeDados>
+                    <SubTitulo>Informe o clima</SubTitulo>
+                    
+                    <InformeOClimaContainer>
+                      <ContainerDeDados>
+                          <ContainerClima>
+                              <RotuloDeCampo>Clima*</RotuloDeCampo>
 
-              <Form.Item  
-                    name="clima"
-                    rules={[{required:true, message: "Selecione o clima."}]}
-                >
-                  <ContainerClima>
-                      <RotuloDeCampo>Clima*</RotuloDeCampo>
-                      <SelectComponent placeholder="Ensolarado"
-                      value={clima}
-                      onChange={handleClimaSelecionado}
-                      options = {optionsList}
-                      > 
-                      </SelectComponent>
-                  </ContainerClima>
-                </Form.Item>
+                              <Form.Item  
+                                  name="clima"
+                                  rules={[{required:true, message: "Selecione o clima."}]}
+                              >
+                                <SelectComponent placeholder="Ensolarado"
+                                      value={clima}
+                                      onChange={handleClimaSelecionado}
+                                      options = {optionsList}
+                                /> 
+                                {/* </SelectComponent> */}
+                              </Form.Item>
+                          </ContainerClima>
 
-                <Form.Item style={{marginLeft:"100px"}} 
-                    name="precipitacao"
-                    rules={[{required:true, message: "Informe a precipitação."}]}
-                >
-                  <ContainerPrecipitacao>
-                      <RotuloDeCampo>Precipitação*</RotuloDeCampo>
-                      <InputNumberCustomer placeholder="3mm"
-                          value={precipitacao}
-                          onChange={handlePrecipitacao}
-                      />
-                  </ContainerPrecipitacao>
-                  </Form.Item>
+                          <ContainerPrecipitacao>
+                              <RotuloDeCampo>Precipitação*</RotuloDeCampo>
 
-                  <Form.Item style={{marginLeft:"100px"}} 
-                    name="umidade"
-                    rules={[{required:true, message: "Informe a umidade."}]}
-                  >
-                    <ContainerUmidade>
-                        <RotuloDeCampo>Umidade*</RotuloDeCampo>
-                        <InputNumberCustomer placeholder="3%"
-                            value={umidade}
-                            onChange={handleUmidade}
-                        />
-                   </ContainerUmidade>
-                  </Form.Item>
+                              <Form.Item 
+                                  name="precipitacao"
+                                  rules={[{required:true, message: "Informe a precipitação."}]}
+                              >
+                                  <InputNumberCustomer placeholder="3mm"
+                                      value={precipitacao}
+                                      onChange={handlePrecipitacao}
+                                  />
+                              </Form.Item>
 
-                  <Form.Item style={{marginLeft:"100px"}} 
-                    name="velocidadeDoVento"
-                    rules={[{required:true, message: "Informe a velocidade do vento."}]}
-                  >
-                    <ContainerVelocidadeCoVento>
-                        <RotuloDeCampo>Velocidade do vento*</RotuloDeCampo>
-                        <InputNumberCustomer placeholder="3 km/h"
-                            value={velocidadeDoVento}
-                            onChange={handleVelocidadeDoVento}
-                        />
-                    </ContainerVelocidadeCoVento>
-                  </Form.Item>
+                          </ContainerPrecipitacao>
+                          
 
-              </ContainerDeDados>
-            </InformeOClimaContainer>
-              
-            <Container>
+                          <ContainerUmidade>
+
+                              <RotuloDeCampo>Umidade*</RotuloDeCampo>
+
+                              <Form.Item 
+                                name="umidade"
+                                rules={[{required:true, message: "Informe a umidade."}]}
+                              >
+                                  <InputNumberCustomer placeholder="3%"
+                                      value={umidade}
+                                      onChange={handleUmidade}
+                                  />
+                              </Form.Item>
+                              
+                          </ContainerUmidade>
+
+
+                          <ContainerVelocidadeCoVento>
+                            <RotuloDeCampo>Velocidade do vento*</RotuloDeCampo>
+                            <Form.Item 
+                              name="velocidadeDoVento"
+                              rules={[{required:true, message: "Informe a velocidade do vento."}]}
+                            >
+                              <InputNumberCustomer placeholder="3 km/h"
+                                  value={velocidadeDoVento}
+                                  onChange={handleVelocidadeDoVento}
+                              />
+                            </Form.Item>
+                          </ContainerVelocidadeCoVento>
+                        
+
+                      </ContainerDeDados>
+                    </InformeOClimaContainer>
+                    </ContainerClimaInputs>
+            </Container>
+
+
+            <Container id='Botoes'>
                   <SessaoDeBotao>
                     <BotaoEstilizado>
                       Cancelar
